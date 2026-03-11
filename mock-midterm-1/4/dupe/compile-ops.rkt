@@ -13,19 +13,5 @@
      (seq (Cmp rax 0)
           (Mov rax (value->bits #f))
           (Mov r9  (value->bits #t))
-          (Cmove rax r9))]
-    ['abs
-     (seq (Mov r9 0)
-          (Sub r9 rax)
-          (Cmp rax 0)
-          (Cmovl rax r9))]
-    ['-
-     (seq (Mov r9 0)  
-          (Sub r9 rax)
-          (Mov rax r9))]
-    ['not
-     (seq (Cmp rax (value->bits #f))
-          (Mov rax (value->bits #f))
-          (Mov r9 (value->bits #t))
           (Cmove rax r9))]))
 

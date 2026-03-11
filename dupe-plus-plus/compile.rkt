@@ -21,10 +21,49 @@
     [(Prim1 p e) (compile-prim1 p e)]
     [(If e1 e2 e3)
      (compile-if e1 e2 e3)]
-    [(Cond eqs eas el) ;; TODO
-     (seq)]
-    [(Case e ds es el) ;; TODO
-     (seq)]))
+    [(Cond eqs eas el)
+     (define (helper conditions evaluated)
+        (match conditions
+          ['() (compile-e el)]
+          [(cons x xs)
+            (let ((l1 (gensym 'cond))
+                  (l2 (gensym 'cond)))
+              (seq (compile-e x)
+                   (Cmp rax (value->bits #f))
+                   (Je l1)
+                   (compile-e (car evaluated))
+                   (Jmp l2)
+                   (Label l1)
+                   (helper xs (cdr evaluated))
+                   (Label l2)))]))
+     (helper eqs eas)]
+    [(Case e ds es el)
+     (define switch (compile-e e))
+     (let ((done (gensym 'done)))
+     (define (helper-helper-for-membership datums l2)
+        (match datums
+          ['() (seq)]
+          [(cons x xs)
+            (seq (Mov r8 (value->bits x))
+                 (Cmp rax r8)
+                 (Je l2)
+                 (helper-helper-for-membership xs l2))]))
+     (define (helper datums evaluated)
+      (match datums
+        ['() (compile-e el)]
+        [(cons x xs)
+          (let ((l1 (gensym 'cond))
+                (l2  (gensym 'cond)))
+            (seq (helper-helper-for-membership x l2)
+                 (Jmp l1)
+                 (Label l2)
+                 (compile-e (car evaluated))
+                 (Jmp done)
+                 (Label l1)
+                 (helper xs (cdr evaluated))))]))
+     (seq switch
+          (helper ds es)
+          (Label done)))]))
 
 ;; Value -> Asm
 (define (compile-value v)

@@ -17,9 +17,22 @@
          (interp e2)
          (interp e3))]
     [(Cond eqs eas el)
-     ;; TODO
-     0]
+     (define (helper conditions evaluated)
+         (match conditions
+            ['() (interp el)]
+            [(cons x xs)
+              (if (interp x)
+                (interp (car evaluated))
+                (helper xs (cdr evaluated)))]))
+     (helper eqs eas)]
     [(Case e ds es el)
-     ;; TODO
-     0]))
+     (define switch (interp e))
+     (define (helper datums evaluated)
+        (match datums
+            ['() (interp el)]
+            [(cons x xs)
+              (if (member switch x)
+                (interp (car evaluated))
+                (helper xs (cdr evaluated)))]))
+     (helper ds es)]))
 
