@@ -35,9 +35,27 @@
 
 ;; Expr -> Boolean
 ;; Is the given expression closed?
-(define (closed? e)
-  ;; TODO
-  #f)
+(define (closed? e) (closed-helper? e '()))
+
+(define (closed-helper? e bounded-vars)
+  (match e
+    [(Eof) #t]
+    [(Lit d) #t]
+    [(Prim0 p) #t]
+    [(Prim1 p e) (closed-helper? e bounded-vars)]
+    [(Prim2 p e1 e2) (and (closed-helper? e1 bounded-vars) (closed-helper? e2 bounded-vars))]
+    [(If e1 e2 e3) (and (closed-helper? e1 bounded-vars) (closed-helper? e2 bounded-vars) (closed-helper? e3 bounded-vars))]
+    [(Begin e1 e2) (and (closed-helper? e1 bounded-vars) (closed-helper? e2 bounded-vars))]
+    [(Let x e1 e2) (and (closed-helper? e1 bounded-vars) (closed-helper? e2 (cons x bounded-vars)))]
+    [(Var x)
+      (define (loop bounds)
+        (match bounds
+          ['() #f]
+          [(cons fst rst)
+            (if (eq? x fst) 
+              #t
+              (loop rst))]))
+      (loop bounded-vars)]))
 
 (module+ test
   (require rackunit)

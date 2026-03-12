@@ -6,6 +6,5 @@
 ;; unauthorized assistance on this assignment.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; TODO: Put your name here to sign the pledge. To receive points for this
-;; question, the signature must not be empty and must not be "TODO".
+Chris Wu
 (define signature "TODO")

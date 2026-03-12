@@ -61,10 +61,22 @@
 
 ;; Expr Expr -> Asm
 (define (compile-when e1 e2)
-  ;; TODO
-  (seq))
+  (seq (compile-e e1)
+       (Cmp rax (value->bits #f))
+       (Je false-cond)
+       (compile-e e2)
+       (Jmp done)
+       (Label false-cond)
+       (Mov rax (value->bits eof))
+       (Label done)))
 
 ;; Expr Expr -> Asm
 (define (compile-unless e1 e2)
-  ;; TODO
-  (seq))
+  (seq (compile-e e1)
+       (Cmp rax (value->bits #f))
+       (Jne true-cond)
+       (compile-e e2)
+       (Jmp done)
+       (Label true-cond)
+       (Mov rax (value->bits eof))
+       (Label done)))
