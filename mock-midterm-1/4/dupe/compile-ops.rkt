@@ -15,11 +15,13 @@
           (Mov r9  (value->bits #t))
           (Cmove rax r9))]
     ['positive?
-     (seq (Cmp rax 0)
-          (Jle non-positive)
-          (Mov rax (value->bits #t))
-          (Jmp done)
-          (Label non-positive)
-          (Mov rax (value->bits #f))
-          (Label done))]))
+      (let ((non-positive (gensym 'if))
+            (done (gensym 'if)))
+        (seq (Cmp rax 0)
+             (Jle non-positive)
+             (Mov rax (value->bits #t))
+             (Jmp done)
+             (Label non-positive)
+             (Mov rax (value->bits #f))
+             (Label done)))]))
 
