@@ -6,5 +6,4 @@
 ;; unauthorized assistance on this assignment.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Chris Wu
-(define signature "TODO")
+(define signature "Chris Wu")
