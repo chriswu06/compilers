@@ -56,7 +56,10 @@
     (check-equal? (run '(begin 1 2 3)) 3)
     (check-equal? (run '(begin0 1)) 1)
     (check-equal? (run '(begin0 1 2)) 1)
-    (check-equal? (run '(begin0 1 2 3)) 1)))
+    (check-equal? (run '(begin0 1 2 3)) 1)
+    (check-equal? (run '(begin0 1 (write-byte 97))) 1)
+    (check-equal? (run '(begin0 2 3 (write-byte 97) (write-byte 98))) 2)))
+    
 
 (define (test/io run)
   (begin ;; Evildoer

@@ -19,9 +19,9 @@
         (Mov rax 2) ;; Move 1 [#b10] to rax
         (Cmp rax 7) ;; Compare rax to #f
         (Je 'l1) ;; don't jump, rax [#b10] is not equal to #f [#b111]
-        (Mov rax 4) ;; Second branch --> Move #t to rax
+        (Mov rax 4) ;; Second branch --> Move 2 to rax
         (Extern 'write_byte) ;; Declare external function write byte
-        (Mov rdi rax) ;; Move rax (#t) to rdi for write-byte
+        (Mov rdi rax) ;; Move rax (2) to rdi for write-byte
         (Call 'write_byte) ;; Call external function write byte
         (Mov rax 6) ;; Mov 3 [#b110] to rax
         (Jmp 'l2) ;; jump to l2
@@ -34,7 +34,7 @@
 (define (prog-1)
   '(if 1
     (begin
-      (write-byte #t)
+      (write-byte 2)
       3)
     4))
 
@@ -59,9 +59,7 @@
         (Ret)))
 
 (define (prog-2)
-  '(let ([_ (read-byte)]
-         [b (read-byte)])
-      (zero? b)))
+  '(begin (read-byte) (zero? (read-byte))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -89,9 +87,7 @@
         (Ret)))
 
 (define (prog-3)
-  '(if #\f
-    (zero? (sub1 42))
-    (zero? (sub1 13))))
+  '(zero? (sub1 (if #\f 42 13))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
