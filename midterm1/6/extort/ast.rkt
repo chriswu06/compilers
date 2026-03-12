@@ -1,0 +1,23 @@
+#lang racket
+(provide Lit Prim0 Prim1 Eof Begin Cond)
+;; type Expr = (Lit Datum)
+;;           | (Eof)
+;;           | (Prim0 Op0)
+;;           | (Prim1 Op1 Expr)
+;;           | (Begin Expr Expr)
+;;           | (Cond (Listof Expr) (Listof Expr) Expr)
+;; type Datum = Integer
+;;            | Boolean
+;;            | Character
+;; type Op0 = 'read-byte | 'peek-byte | 'void
+;; type Op1 = 'add1 | 'sub1
+;;          | 'zero?
+;;          | 'char? | 'integer->char | 'char->integer
+;;          | 'write-byte | 'eof-object?
+
+(struct Eof () #:prefab)
+(struct Lit (d) #:prefab)
+(struct Prim0 (p) #:prefab)
+(struct Prim1 (p e) #:prefab)
+(struct Begin (e1 e2) #:prefab)
+(struct Cond (ps bs el) #:prefab)
