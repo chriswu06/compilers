@@ -27,4 +27,4 @@
       (boolean? x)))
 
 (define (op1? x)
-  (memq x '(add1 sub1 zero?)))
+  (memq x '(add1 sub1 zero? odd?)))

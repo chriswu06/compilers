@@ -29,10 +29,10 @@
     (check-equal? (run #f) #f)
     (check-equal? (run '(if #t 1 2)) 1)
     (check-equal? (run '(if #f 1 2)) 2)
-    (check-equal? (run '(if 0 1 2)) 1)
+    (check-equal? (run '(if 0 1 2)) 'err)
     (check-equal? (run '(if #t 3 4)) 3)
     (check-equal? (run '(if #f 3 4)) 4)
-    (check-equal? (run '(if  0 3 4)) 3)
+    (check-equal? (run '(if  0 3 4)) 'err)
     (check-equal? (run '(zero? 4)) #f)
     (check-equal? (run '(zero? 0)) #t))
 
