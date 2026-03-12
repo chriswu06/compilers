@@ -69,7 +69,7 @@
          (compile-e e2)
          (Jmp done)
          (Label false-cond)
-         (Mov rax (value->bits void))
+         (Mov rax (void))
          (Label done))))
 
 ;; Expr Expr -> Asm
@@ -82,5 +82,5 @@
          (compile-e e2)
          (Jmp done)
          (Label true-cond)
-         (Mov rax (value->bits void))
+         (Mov rax (void))
          (Label done))))
