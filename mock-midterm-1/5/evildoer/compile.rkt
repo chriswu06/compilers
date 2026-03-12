@@ -68,7 +68,7 @@
         (done (gensym 'if)))
     (seq (Sub rsp 16)
          (Mov (Offset rsp 0) (value->bits #f))
-         (Mov (offset rsp 8) (value->bits (void)))
+         (Mov (Offset rsp 8) (value->bits (void)))
          (Label start-loop)
          (compile-e e1)
          (Cmp rax (value->bits #f))
