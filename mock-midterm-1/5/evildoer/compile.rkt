@@ -59,19 +59,17 @@
        (compile-e e2)))
 
 ;; Expr Expr -> Asm
-;rcx -> there is a value in e1
-;rdx -> the value in e1
 (define (compile-until e1 e2)
   (let ([loop (gensym 'loop)]
         [done (gensym 'done)])
     (seq (Mov rax (value->bits (void)))
-         (Label loop) 
-         (Push rax)    
+         (Label loop)
+         (Push rax)
          (compile-e e1)
          (Cmp rax (value->bits #f))
          (Jne done)
          (Add rsp 8)
-         (Compile-e e2)
+         (compile-e e2)
          (Jmp loop)
          (Label done)
          (Pop rax))))
