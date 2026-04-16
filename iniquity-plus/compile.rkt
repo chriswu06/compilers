@@ -86,28 +86,28 @@
      (let ((labels (map (lambda (_) (gensym 'clause)) cs)))
         (seq (Label (symbol->label f))
              (apply seq
-                (map (lambda (c lbl)
+                (map (lambda (c label)
                   (match c
                     [(FunPlain xs _)
                      (seq (Cmp r8 (length xs))
-                          (Je lbl))]
+                          (Je label))]
                     [(FunRest xs _ _)
                      (seq (Cmp r8 (length xs))
-                          (Jge lbl))]))
+                          (Jge label))]))
                 cs labels))
              (Jmp 'err)
              (apply seq
-                (map (lambda (c lbl)
+                (map (lambda (c label)
                   (match c
                     [(FunPlain xs e)
-                     (seq (Label lbl)
+                     (seq (Label label)
                           (compile-e e (reverse xs))
                           (Add rsp (* 8 (length xs)))
                           (Ret))]
                     [(FunRest xs x e)
                      (let ((loop (gensym 'loop))
                            (done (gensym 'done)))
-                        (seq (Label lbl)
+                        (seq (Label label)
                              (Mov rax (value->bits '()))
                              (Mov rcx r8)
                              (Sub rcx (length xs))
