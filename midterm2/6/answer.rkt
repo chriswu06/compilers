@@ -26,4 +26,4 @@ EXPLANATION
 ;; NOTE: You need to quote the S-expressions to prevent Racket running them.
 (define program
   (list '(match 1
-          [(or x x) x]))
+          [(or x x) x])))
